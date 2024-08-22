@@ -1,0 +1,56 @@
+-- Creación de la tabla Planta
+CREATE TABLE Planta (
+    ID_Planta INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre_Científico VARCHAR(255) NOT NULL,
+    Nombre_Común VARCHAR(255),
+    Descripción TEXT,
+    Imagen VARCHAR(255),
+    Tipo_Suelo VARCHAR(255),
+    Necesidades_Agua VARCHAR(255),
+    Necesidades_Luz VARCHAR(255)
+);
+
+-- Creación de la tabla Plaga
+CREATE TABLE Plaga (
+    ID_Plaga INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre_Científico VARCHAR(255) NOT NULL,
+    Nombre_Común VARCHAR(255),
+    Descripción TEXT,
+    Imagen VARCHAR(255),
+    Planta_ID INT,
+    FOREIGN KEY (Planta_ID) REFERENCES Planta(ID_Planta)
+);
+
+-- Creación de la tabla Enfermedad
+CREATE TABLE Enfermedad (
+    ID_Enfermedad INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre_Científico VARCHAR(255) NOT NULL,
+    Nombre_Común VARCHAR(255),
+    Descripción TEXT,
+    Síntomas TEXT,
+    Imagen VARCHAR(255),
+    Planta_ID INT,
+    FOREIGN KEY (Planta_ID) REFERENCES Planta(ID_Planta)
+);
+
+-- Creación de la tabla Tratamiento
+CREATE TABLE Tratamiento (
+    ID_Tratamiento INT PRIMARY KEY AUTO_INCREMENT,
+    Descripción TEXT NOT NULL,
+    Método_Aplicación VARCHAR(255),
+    Frecuencia VARCHAR(255),
+    Duración VARCHAR(255)
+);
+
+-- Creación de la tabla Recomendación
+CREATE TABLE Recomendación (
+    ID_Recomendación INT PRIMARY KEY AUTO_INCREMENT,
+    Descripción TEXT NOT NULL,
+    Tipo ENUM('Plaga', 'Enfermedad') NOT NULL,
+    Tratamiento_ID INT,
+    Plaga_ID INT,
+    Enfermedad_ID INT,
+    FOREIGN KEY (Tratamiento_ID) REFERENCES Tratamiento(ID_Tratamiento),
+    FOREIGN KEY (Plaga_ID) REFERENCES Plaga(ID_Plaga),
+    FOREIGN KEY (Enfermedad_ID) REFERENCES Enfermedad(ID_Enfermedad)
+);
